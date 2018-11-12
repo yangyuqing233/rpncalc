@@ -44,27 +44,41 @@ static struct operator_struct {
 
 /* YOU WRITE THIS */
 static int popInt(struct tokenStack *s)
-{ int pop;
-  if(s->top==0){
-   fprintf(stderr,"popTokenStack: popping an empty stack, aborting\n");
-		exit(1);
-  }
- else{
-		value = atoi(popTokenStack(s)->symbol);
-	}
-  return pop;
+{  
+  struct lexToken *t = popTokenStack(s);	
+  int temp = atoi(t->symbol); /* convert the char symbol to int */	  
+  freeToken(t);   
+  return temp;
 }
 
 /* YOU WRITE THIS */
 static void pushInt(struct tokenStack *s, int v)
-{   struct lexToken *token;
-	token = allocToken();
-	token->kind = LEX_TOKEN_NUMBER;
+{  /* 
+   		-given a stack and an int, push the int onto the stack,
+   		-need to turn int into char to push onto stack
+   		-once char is achieved, need to put it in a lexToken (encode) to push onto stack
+   		-call pushTokenStack and pass stack and lextoken
+  	  */
+  struct lexToken *t = allocToken();
+  
+  char str[MAX_SYMBOL_LENGTH]; 
+  sprintf(str,"%d", v);  /*turn int v into char and put in array*/
+  
+  /*char temp = (char) (v + '0');  convert the int to char symbol  
+  printf("this is  pushing  %s \n", str); */
+  
+  /* place char into the lextoken at symbol[0] */
+    t->kind = LEX_TOKEN_NUMBER;  
+    
+    strncpy(t->symbol, str, MAX_SYMBOL_LENGTH);   /* copy all of new string array into t->symbol */
+    
+  /*  t->symbol[1]= temp;*/
+    
+  /*  t->symbol = '\0';
+    printf("this is t->symbol  %s \n", t->symbol); */
 
-	sprintf(token->symbol, "%d", v);
-	pushTokenStack(s,token);
-
-	op_print(s);
+   /*  then push lextoken onto the stack*/
+ pushTokenStack(s,t);
 }
 
 int doOperator(struct tokenStack *stack, char *o) 
