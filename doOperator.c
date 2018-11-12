@@ -23,7 +23,8 @@ static int op_MOD(struct tokenStack *stack);// - push two copies of n1 onto the 
 static struct operator_struct {
   char *name;
   int (*fn_ptr)(struct tokenStack *);
-} ops[] = {
+} 
+ops[] = {
   {"quit", op_quit},
   {"print", op_print},
   {"dump", op_dump},
