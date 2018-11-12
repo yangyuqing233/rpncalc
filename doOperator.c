@@ -12,13 +12,13 @@ static int op_add(struct tokenStack *stack);
 static int op_subtract(struct tokenStack *stack);
 static int op_multiply(struct tokenStack *stack);
 static int op_divide(struct tokenStack *stack);
-static int op_GThan(struct tokenStack *stack);
-static int op_GEThan(struct tokenStack *stack);
-static int op_LThan(struct tokenStack *stack);
-static int op_LEThan(struct tokenStack *stack);
-static int op_modQuot(struct tokenStack *stack);
+static int op_GThan(struct tokenStack *stack);//-push 1 if n1 > n2 and 0 otherwise 
+static int op_GEThan(struct tokenStack *stack);//-push 1 if n1 >= n2 and 0 otherwise 
+static int op_LThan(struct tokenStack *stack);// -push 1 if n1 < n2 and 0 otherwise 
+static int op_LEThan(struct tokenStack *stack);// -push 1 if n1 <= n2 and 0 otherwise 
+static int op_MODQuot(struct tokenStack *stack);//- push remainder then quotient 
 static int op_equal(struct tokenStack *stack);
-static int op_mod(struct tokenStack *stack);
+static int op_MOD(struct tokenStack *stack);// - push two copies of n1 onto the stack 
 
 static struct operator_struct {
   char *name;
@@ -206,7 +206,7 @@ static int op_equal(struct tokenStack *stack)
   return(0);
 }
 
-static int op_mod(struct tokenStack *stack)
+static int op_MOD(struct tokenStack *stack)
 {
   int v1;
   v1 = popInt(stack);
@@ -216,7 +216,7 @@ static int op_mod(struct tokenStack *stack)
 }
 
 
-static int op_modQuot(struct tokenStack *stack)
+static int op_MODQuot(struct tokenStack *stack)
 {
   int v1;
   int v2;
