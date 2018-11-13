@@ -12,18 +12,21 @@ static int op_add(struct tokenStack *stack);
 static int op_subtract(struct tokenStack *stack);
 static int op_multiply(struct tokenStack *stack);
 static int op_divide(struct tokenStack *stack);
-static int op_GThan(struct tokenStack *stack);//-push 1 if n1 > n2 and 0 otherwise 
-static int op_GEThan(struct tokenStack *stack);//-push 1 if n1 >= n2 and 0 otherwise 
-static int op_LThan(struct tokenStack *stack);// -push 1 if n1 < n2 and 0 otherwise 
-static int op_LEThan(struct tokenStack *stack);// -push 1 if n1 <= n2 and 0 otherwise 
-static int op_MODQuot(struct tokenStack *stack);//- push remainder then quotient 
+static int op_GThan(struct tokenStack *stack);/*-push 1 if n1 > n2 and 0 otherwise*/ 
+static int op_GEThan(struct tokenStack *stack);/*-push 1 if n1 >= n2 and 0 otherwise*/ 
+static int op_LThan(struct tokenStack *stack);/* -push 1 if n1 < n2 and 0 otherwise */
+static int op_LEThan(struct tokenStack *stack);/* -push 1 if n1 <= n2 and 0 otherwise */
+static int op_MODQuot(struct tokenStack *stack);/*- push remainder then quotient */
 static int op_equal(struct tokenStack *stack);
-static int op_MOD(struct tokenStack *stack);// - push two copies of n1 onto the stack 
+static int op_MOD(struct tokenStack *stack);/* - push two copies of n1 onto the stack */
+static int op_SWAP(struct tokenStack *stack);
+static int op_HELP(struct tokenStack *stack);
 
 static struct operator_struct {
   char *name;
   int (*fn_ptr)(struct tokenStack *);
-} ops[] = {
+}
+ ops[] = {
   {"quit", op_quit},
   {"print", op_print},
   {"dump", op_dump},
@@ -35,9 +38,12 @@ static struct operator_struct {
   {"GE", op_GEThan},
   {"LT", op_LThan},
   {"LE", op_LEThan},
-  {"MODQ", op_modQuot},
-  {"MOD", op_mod},
+  {"MODQ", op_MODQuot},
+  {"MOD", op_MOD},
   {"EQ", op_equal},
+  {"SWAP", op_SWAP},
+  {"HELP", op_HELP},
+
   {(char *)NULL, (int(*)(struct tokenStack *)) NULL}
 };
 
@@ -123,6 +129,23 @@ static int op_add(struct tokenStack *stack)
   pushInt(stack, v1+v2);
   return(0);
 }
+
+static int op_HELP(struct tokenStack *stack)
+{
+   printf("+  - push n1+n2\n");
+   printf("-  - push n1-n2\n");
+   printf("*  - push n1*n2\n");
+   printf("/  - push n1/n2\n");
+   printf("GT - push 1 if n1 > n2 and 0 otherwise\n");
+   printf("LT - push 1 if n1 < n2 and 0 otherwise\n");
+   printf("GT - push 1 if n1 >= n2 and 0 otherwise\n");
+   printf("LE - push 1 if n1 <= n2 and 0 otherwise \n");
+   printf("EQ - push 1 if n1 == n2 and 0 otherwise \n");
+   printf("MOD - push two copies of n1 onto the stack\n");
+   printf("MODQ - push remainder then quotient \n");
+   printf("SWAP -  swap the order of the top two elements on the stack \n");
+   return (0);
+}
 static int op_subtract(struct tokenStack *stack)
 {
   int v1, v2;
@@ -131,7 +154,6 @@ static int op_subtract(struct tokenStack *stack)
   pushInt(stack, v2-v1);
   return(0);
 }
-
 static int op_multiply(struct tokenStack *stack)
 {
   int v1, v2;
@@ -241,3 +263,13 @@ static int op_MODQuot(struct tokenStack *stack)
   return(0);
 }
 
+static int op_SWAP(struct tokenStack *stack)
+{
+  int v1;
+  int v2;
+  v1 = popInt(stack);
+  v2 = popInt(stack);
+  pushInt(stack, v1);
+  pushInt(stack, v2);
+  return(0);
+}

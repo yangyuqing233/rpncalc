@@ -17,9 +17,9 @@ int getChar()
     lastChar = -1;
     return temp;
   }
-  if(feof(fd))//tests the end-of-file;return 0 if not the end
+  if(feof(fd))/*tests the end-of-file;return 0 if not the end*/
     return -1;
-  return fgetc(fd);//get next char or EOF when sth wrong 
+  return fgetc(fd);/*get next char or EOF when sth wrong */
 }
 
 void ungetChar(int ch)
